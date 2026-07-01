@@ -1,0 +1,46 @@
+from django.db import models
+from companies.models import Company
+
+class Job(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='jobs')
+    title = models.CharField(max_length=255)
+    category = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField()
+    responsibilities = models.TextField(blank=True, null=True)
+    requirements = models.TextField()
+    required_skills = models.CharField(max_length=255, blank=True, null=True)
+    min_experience = models.IntegerField(default=0)
+    max_experience = models.IntegerField(blank=True, null=True)
+    min_salary = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    max_salary = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    currency = models.CharField(max_length=10, default='USD')
+    location = models.CharField(max_length=255)
+    country = models.CharField(max_length=100, blank=True, null=True)
+    state = models.CharField(max_length=100, blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    zip_code = models.CharField(max_length=20, blank=True, null=True)
+    work_model = models.CharField(max_length=50, choices=[('Remote', 'Remote'), ('Hybrid', 'Hybrid'), ('On-site', 'On-site')])
+    job_type = models.CharField(max_length=50, choices=[('Full Time', 'Full Time'), ('Part Time', 'Part Time'), ('Contract', 'Contract'), ('Internship', 'Internship'), ('Freelance', 'Freelance')])
+    education_required = models.CharField(max_length=100, blank=True, null=True)
+    vacancies = models.IntegerField(default=1)
+    application_deadline = models.DateField(blank=True, null=True)
+    company_website = models.URLField(blank=True, null=True)
+    company_email = models.EmailField(blank=True, null=True)
+    company_phone = models.CharField(max_length=20, blank=True, null=True)
+    benefits = models.TextField(blank=True, null=True)
+    languages = models.CharField(max_length=255, blank=True, null=True)
+    gender_preference = models.CharField(max_length=50, blank=True, null=True)
+    age_limit = models.CharField(max_length=50, blank=True, null=True)
+    banner = models.ImageField(upload_to='job_banners/', blank=True, null=True)
+    documents = models.FileField(upload_to='job_docs/', blank=True, null=True)
+    is_draft = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class SavedJob(models.Model):
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='saved_jobs')
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='saved_by')
+    saved_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('user', 'job')
