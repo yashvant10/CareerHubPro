@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { motion } from 'framer-motion';
-import { FiBriefcase, FiMapPin, FiClock, FiUsers, FiEye } from 'react-icons/fi';
+import { FiBriefcase, FiMapPin, FiClock, FiUsers, FiEye, FiArrowRight } from 'react-icons/fi';
 import { AuthContext } from '../context/AuthContext';
 
 export default function EmployerDashboard() {
