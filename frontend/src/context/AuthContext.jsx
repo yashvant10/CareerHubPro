@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('refresh_token', res.data.refresh);
     const decoded = jwtDecode(res.data.access);
     setUser({ id: decoded.id, username: decoded.username, role: decoded.role });
+    return decoded;
   };
 
   const register = async (userData) => {
